@@ -1,0 +1,43 @@
+version: '3'
+services:
+    nginx:
+        build:
+            context: ./docker/nginx
+        ports:
+          - "10050:10050"
+        volumes:
+          - ./laravel:/var/www/html
+        networks:
+          - default
+
+    postgres:
+        image: postgres
+        volumes:
+          - ./docker/postgres:/var/lib/postgres
+        ports:
+          - "5432:5432"
+        environment:
+          - "POSTGRES_USER=postgres"
+          - "POSTGRES_PASSWORD=password"
+
+    php:
+      image : php:7-fpm
+      build: ./docker/php-fpm
+      ports:
+          - "9999:9999"
+      volumes:
+          - ./laravel:/var/www/html
+
+    composer:
+      build: ./docker/composer
+      volumes:
+          - ./laravel:/var/www/html
+
+    nuxt:
+      image: node-express-dev:1.0
+      build: ./docker/nuxt
+      tty: true
+      ports:
+        - "3000:3000"
+      volumes:
+          - ./nuxt:/var/www/html/nuxt
