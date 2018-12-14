@@ -174,5 +174,5 @@ typings/
 # Serverless directories
 .serverless
 
-# Mac
+#Mac
 .DS_Store

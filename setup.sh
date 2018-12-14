@@ -13,6 +13,8 @@ function prepare_environment() {
   docker-compose up -d
   docker-compose run composer install
   docker-compose run nuxt yarn install
+  docker-compose exec php chown -R www-data:www-data /var/www
+  docker-compose exec php chmod 755 ./
   docker-compose down
 }
 
@@ -36,4 +38,4 @@ else
   fail "  x Check error messages and resolve the problem."
 fi
 
-info '  + Done to setup.'
+info '  + Done to setup the CodeGO.'

@@ -5,8 +5,6 @@ RUN apk update && \
 
 ADD ./default.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 10050
-EXPOSE 3000
 EXPOSE 80
 
 RUN mkdir -p /run/nginx
