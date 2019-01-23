@@ -1,24 +1,16 @@
-## 事前準備
-
 ### Docker環境の準備
 
-DockerとDocker Composeを用います。
+開発には全面的にDockerとDocker Composeを用います。
 そのためDockerとDocker Composeに関してはインストールが必要です。
 WindowsOSは非対応となっています。
-そのためmacOS/Linuxのの入ったPCを用意して下さい。
-
-#### 必要なファイル
-
-./laravel下にLaravelのプロジェクトファイル
-./nuxt下にnuxtのプロジェクトファイルを配置してください
 
 #### Run setup script
 
-下記を叩くだけでDocker Image、DB構築をすべて完了します。
+下記を叩くだけで環境構築をすべて完了します。
 順番に実行してください。
 
 ```
-$ git clone https://github.com/nyanko-kota/CodeGO
+$ git clone https://github.com/nyanko-kota/Docker-nuxt-laravel
 ```
 
 ```
@@ -33,8 +25,17 @@ $ docker-compose up
 
 このコマンドを入力後、
 
-http://localhost:3000  にアクセスすると、トップページが表示されます。
+http://localhost:1080  にアクセスすると、mail(mailcatcher)が表示されます。
 
-http://localhost:8081  にアクセスすると、pgwebが表示されます。
+http://localhost:3000  にアクセスすると、ユーザーページ(nuxt.js)が表示されます。
 
-http://localhost:8000  にアクセスすると、apiサーバー(Laravel)が表示されます。
+http://localhost:5000  にアクセスすると、管理ページ(nuxt.js)が表示されます。
+
+http://localhost:8000  にアクセスすると、apiサーバー(laravel)が表示されます。
+
+http://localhost:8081  にアクセスすると、pgweb(postgresql)が表示されます。
+
+#### 最後に
+
+この環境はテスト用です。
+セキュリティの問題により本番には流用できないのでご注意ください。

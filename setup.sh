@@ -13,8 +13,10 @@ function prepare_environment() {
   docker-compose up -d
   docker-compose run composer install
   docker-compose run nuxt yarn install
+  docker-compose run admin yarn install
   docker-compose exec php chown -R www-data:www-data /var/www
   docker-compose exec php chmod 755 ./
+  docker-compose exec php php artisan db:create
   docker-compose down
 }
 

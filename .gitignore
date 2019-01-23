@@ -176,3 +176,6 @@ typings/
 
 #Mac
 .DS_Store
+
+# Created by Docker
+/postgres

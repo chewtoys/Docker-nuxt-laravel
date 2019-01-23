@@ -2,7 +2,6 @@ version: '3'
 services:
 
     nginx:
-      image: nginx:alpine
       build: ./docker/nginx
       container_name: "nginx"
       volumes:
@@ -15,12 +14,12 @@ services:
           - php
 
     php:
-      image: php:fpm-alpine
       build: ./docker/php-fpm
-      container_name: "Laravel"
+      container_name: "laravel"
       volumes:
           - ./laravel:/var/www/html
           - ./docker/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+          - ./database:/app/database
           - "phpsocket:/var/run"
 
     composer:
@@ -30,33 +29,32 @@ services:
           - ./laravel:/var/www/html
 
     postgres:
-      image: postgres
+      image: postgres:10.4-alpine
+
       container_name: "postgres"
       volumes:
-          - ./postgres:/var/lib/postgres
+          - ./postgres:/var/lib/postgresql/data
       ports:
           - "5432:5432"
-      restart: always
-      depends_on:
-          - php
       environment:
           - POSTGRES_USER=root
           - POSTGRES_PASSWORD=password
+      restart: always
       tty: true
 
     pgweb:
-      image: sosedoff/pgweb
+      build: ./docker/pgweb
       container_name: "pgweb"
       ports:
           - "8081:8081"
       environment:
-          - DATABASE_URL=postgres://root:password@postgres:5432/<DBname>?sslmode=disable
+          - DATABASE_URL=postgres://root:password@postgres:5432/codego_dev?sslmode=disable
       links:
           - postgres:postgres
       restart: always
       depends_on:
           - postgres
-      tty: true
+      command: wait.sh
 
     redis:
       image: redis:4.0.9-alpine
@@ -69,7 +67,6 @@ services:
       tty: true
 
     nuxt:
-      image: node-express-dev:1.0
       build: ./docker/nuxt
       container_name: "nuxt"
       volumes:
@@ -77,6 +74,23 @@ services:
       ports:
         - "3000:3000"
       tty: true
+
+    admin:
+      build: ./docker/admin
+      container_name: "admin"
+      volumes:
+          - ./admin:/var/www/html/admin
+      ports:
+        - "5000:5000"
+      tty: true
+
+    mailcatcher:
+      restart: always
+      image: schickling/mailcatcher
+      container_name: 'mailcatcher'
+      ports:
+          - "1080:1080"
+          - "1025:1025"
 
 volumes:
     postgres-data:
