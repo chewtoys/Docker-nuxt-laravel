@@ -174,8 +174,9 @@ typings/
 # Serverless directories
 .serverless
 
-#Mac
+# Mac
 .DS_Store
 
 # Created by Docker
 /postgres
+/redis
